@@ -1,5 +1,4 @@
 # This is a sample Python script.
-from src.public.DAO import  *
 from src.public.DAO.WorldDAO import WorldDAO
 
 
@@ -15,8 +14,14 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
+    name = input('Name: ')
+    country_code = input('CountryCode: ')
+    district = input('District: ')
+    population = int(input('Population: '))
+
     world = WorldDAO()
-    world.selectCityID(1909)
+    world.createCity(name, country_code, district, population)
+
     print_hi('PyCharm')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
