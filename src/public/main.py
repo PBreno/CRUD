@@ -14,13 +14,13 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-    name = input('Name: ')
-    country_code = input('CountryCode: ')
-    district = input('District: ')
-    population = int(input('Population: '))
+    # name = input('Name: ')
+    # country_code = input('CountryCode: ')
+    # district = input('District: ')
+    # population = int(input('Population: '))
 
     world = WorldDAO()
-    world.createCity(name, country_code, district, population)
+    world.delete(4080)
 
     print_hi('PyCharm')
 

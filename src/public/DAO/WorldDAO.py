@@ -1,3 +1,5 @@
+import mysql.connector
+
 from src.public.DAO.Connection import Connection
 from tabulate import tabulate
 
@@ -46,7 +48,7 @@ class WorldDAO:
             print(f'Total number of rows in table: {cursor.rowcount}')
 
             print(records)
-            header = ['Name', 'CountryCode','District', 'Population']
+            header = ['Name', 'CountryCode', 'District', 'Population']
             print(tabulate(records, headers=['ID', 'Name', 'CountryCode', 'District', 'Population'],tablefmt='fancy_grid'))
             # for row in records:
             #     print('-------------------------------------------')
@@ -86,6 +88,30 @@ class WorldDAO:
             print(e)
 
         finally:
+            if conn.is_connected():
+                conn.close()
+                # cursor.close()
+                print('MySQL connection is closed')
+
+    def delete(self, id: int):
+
+        connection = Connection()
+        conn = connection.getConnection()
+
+        try:
+
+            query = f'DELETE FROM world.city WHERE id = {id}'
+            cursor = conn.cursor()
+            cursor.execute(query)
+            conn.commit()
+
+            print(f'ID {id} excluido com sucesso!')
+
+        except ConnectionError as e:
+            print('Failed to Delete: '.format(e))
+
+        finally:
+
             if conn.is_connected():
                 conn.close()
                 # cursor.close()
