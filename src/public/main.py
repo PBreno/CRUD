@@ -20,7 +20,7 @@ if __name__ == '__main__':
     # population = int(input('Population: '))
 
     world = WorldDAO()
-    world.delete(4080)
+    world.update('Benguela', 58)
 
     print_hi('PyCharm')
 

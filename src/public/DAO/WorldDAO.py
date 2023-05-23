@@ -117,3 +117,27 @@ class WorldDAO:
                 # cursor.close()
                 print('MySQL connection is closed')
 
+    def update(self, district: str, id: int):
+
+        connection = Connection()
+        conn = connection.getConnection()
+
+        try:
+
+            query = """UPDATE world.city SET district = %s WHERE id =%s"""
+            cursor = conn.cursor()
+            up = (district, id)
+            cursor.execute(query, up)
+            conn.commit()
+
+            print(f'Atualizado com sucesso!')
+
+        except ConnectionError as e:
+            print('Failed to Delete: '.format(e))
+
+        finally:
+
+            if conn.is_connected():
+                conn.close()
+                # cursor.close()
+                print('MySQL connection is closed')
