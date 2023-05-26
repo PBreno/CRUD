@@ -6,15 +6,15 @@ from tabulate import tabulate
 
 class WorldDAO:
 
-    def selectCity(self):
+    def __init__(self, connection):
+        self.connection = Connection().getConnection()
 
-        connection = Connection()
-        conn = connection.getConnection()
+    def selectCity(self):
 
         try:
 
             query = """SELECT *FROM world.city;"""
-            cursor = conn.cursor()
+            cursor = self.connection.cursor()
             cursor.execute(query)
 
             records = cursor.fetchall()
@@ -27,21 +27,18 @@ class WorldDAO:
             print(e)
 
         finally:
-            if conn.is_connected():
-                conn.close()
+            if self.connection.is_connected():
+                self.connection.close()
                 # cursor.close()
                 print('MySQL connection is closed')
 
     def selectCityID(self, id: int):
 
-        connection = Connection()
-        conn = connection.getConnection()
-
         try:
 
             query = f'SELECT *FROM world.city WHERE id = {id};'
 
-            cursor = conn.cursor()
+            cursor = self.connection.cursor()
             cursor.execute(query)
             records = cursor.fetchmany()
 
@@ -63,24 +60,21 @@ class WorldDAO:
             print(e)
 
         finally:
-            if conn.is_connected():
-                conn.close()
+            if self.connection.is_connected():
+                self.connection.close()
                 # cursor.close()
                 print('MySQL connection is closed')
 
     def createCity(self, name: str, country_code: str, district: str, population: int):
-
-        connection = Connection()
-        conn = connection.getConnection()
 
         try:
 
             query = """INSERT INTO city (Name, CountryCode, District, Population) VALUES (%s, %s, %s, %s)"""
 
             records = (name, country_code, district, population)
-            cursor = conn.cursor()
+            cursor = self.connection.cursor()
             cursor.execute(query, records)
-            conn.commit()
+            self.connection.commit()
 
             print(f'Dados inseridos: {records}')
 
@@ -88,22 +82,19 @@ class WorldDAO:
             print(e)
 
         finally:
-            if conn.is_connected():
-                conn.close()
+            if self.connection.is_connected():
+                self.connection.close()
                 # cursor.close()
                 print('MySQL connection is closed')
 
     def delete(self, id: int):
 
-        connection = Connection()
-        conn = connection.getConnection()
-
         try:
 
             query = f'DELETE FROM world.city WHERE id = {id}'
-            cursor = conn.cursor()
+            cursor = self.connection.cursor()
             cursor.execute(query)
-            conn.commit()
+            self.connection.commit()
 
             print(f'ID {id} excluido com sucesso!')
 
@@ -112,23 +103,20 @@ class WorldDAO:
 
         finally:
 
-            if conn.is_connected():
-                conn.close()
+            if self.connection.is_connected():
+                self.connection.close()
                 # cursor.close()
                 print('MySQL connection is closed')
 
     def update(self, district: str, id: int):
 
-        connection = Connection()
-        conn = connection.getConnection()
-
         try:
 
             query = """UPDATE world.city SET district = %s WHERE id =%s"""
-            cursor = conn.cursor()
+            cursor = self.connection.cursor()
             up = (district, id)
             cursor.execute(query, up)
-            conn.commit()
+            self.connection.commit()
 
             print(f'Atualizado com sucesso!')
 
@@ -137,7 +125,7 @@ class WorldDAO:
 
         finally:
 
-            if conn.is_connected():
-                conn.close()
+            if self.connection.is_connected():
+                self.connection.close()
                 # cursor.close()
                 print('MySQL connection is closed')
